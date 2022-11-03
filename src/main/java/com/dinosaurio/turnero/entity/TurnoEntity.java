@@ -49,5 +49,8 @@ public class TurnoEntity implements Serializable {
     @Column(name = "Habilitado")
     private boolean Habilitado = true;
 
+    @Column(name = "Estado")
+    private boolean estado = true;
+
 
 }

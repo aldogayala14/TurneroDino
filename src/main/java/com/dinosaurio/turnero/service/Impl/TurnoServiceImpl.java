@@ -1,25 +1,31 @@
 package com.dinosaurio.turnero.service.Impl;
 
 import com.dinosaurio.turnero.dto.TurnoDTO;
+import com.dinosaurio.turnero.dto.TurnoFilterDTO;
 import com.dinosaurio.turnero.entity.TurnoEntity;
 import com.dinosaurio.turnero.mapper.TurnoMapper;
 import com.dinosaurio.turnero.repository.TurnoRepository;
+import com.dinosaurio.turnero.repository.specification.TurnoSpecification;
 import com.dinosaurio.turnero.service.TurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Service
 public class TurnoServiceImpl implements TurnoService {
 
     private TurnoRepository turnoRepository;
+    private TurnoSpecification turnoSpecification;
     private TurnoMapper turnoMapper;
 
     @Autowired
-    public TurnoServiceImpl(TurnoRepository turnoRepository, TurnoMapper turnoMapper) {
+    public TurnoServiceImpl(TurnoRepository turnoRepository, TurnoMapper turnoMapper, TurnoSpecification turnoSpecification) {
         this.turnoRepository = turnoRepository;
         this.turnoMapper = turnoMapper;
+        this.turnoSpecification = turnoSpecification;
     }
 
     @Override
@@ -49,5 +55,19 @@ public class TurnoServiceImpl implements TurnoService {
     @Override
     public void delete(Long id) {
         this.turnoRepository.deleteById(id);
+    }
+
+
+    @Override
+    public Set<TurnoDTO> getByFilters(boolean estado, String order) {
+        TurnoFilterDTO movieFilterDTO = new TurnoFilterDTO(estado,order);
+        List<TurnoEntity> entities = turnoRepository.findAll(turnoSpecification.getByFilters(movieFilterDTO));
+        Set<TurnoDTO> movieDTOS = turnoMapper.turnoEntity2DTOList(entities);
+        return movieDTOS;
+    }
+
+    @Override
+    public void setEstado() {
+        this.turnoRepository.setEstado();
     }
 }

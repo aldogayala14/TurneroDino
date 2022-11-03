@@ -12,4 +12,8 @@ public interface TurnoService {
     TurnoDTO update(Long id, TurnoDTO turnoDTO);
 
     void delete(Long id);
+
+    Set<TurnoDTO> getByFilters(boolean estado, String order);
+
+    void setEstado();
 }

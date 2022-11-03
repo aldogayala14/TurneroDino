@@ -1,6 +1,7 @@
 package com.dinosaurio.turnero.mapper;
 
 import com.dinosaurio.turnero.dto.TurnoDTO;
+import com.dinosaurio.turnero.dto.TurnoFilterDTO;
 import com.dinosaurio.turnero.entity.TurnoEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -21,6 +22,12 @@ public class TurnoMapper {
         return result;
     }
 
+    public TurnoFilterDTO turnoPresenterEntity2DTO(TurnoEntity entity){
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        TurnoFilterDTO result = this.modelMapper.map(entity, TurnoFilterDTO.class);
+        return result;
+    }
+
     public TurnoEntity turnoDTO2Entity(TurnoDTO turnoDTO){
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         TurnoEntity result = this.modelMapper.map(turnoDTO, TurnoEntity.class);
@@ -31,6 +38,14 @@ public class TurnoMapper {
         Set<TurnoDTO> dtos = new HashSet<>();
         for(TurnoEntity entity:entities){
             dtos.add(this.turnoEntity2DTO(entity));
+        }
+        return dtos;
+    }
+
+    public Set<TurnoFilterDTO> turnoPresnterEntity2DTOList(Set<TurnoEntity> entities){
+        Set<TurnoFilterDTO> dtos = new HashSet<>();
+        for(TurnoEntity entity:entities){
+            dtos.add(this.turnoPresenterEntity2DTO(entity));
         }
         return dtos;
     }
