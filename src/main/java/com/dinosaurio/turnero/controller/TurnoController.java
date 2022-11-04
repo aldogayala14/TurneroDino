@@ -12,10 +12,12 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/API/turno")
+@CrossOrigin(origins = "http://localhost:9090")
 public class TurnoController {
 
     @Autowired
     private TurnoService turnoService;
+
 
     @GetMapping("/all")
     public ResponseEntity<Set<TurnoDTO>> getAll(){
