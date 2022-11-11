@@ -39,9 +39,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioDTO update(Long id, UsuarioDTO usuarioDTO) {
         UsuarioEntity entity = this.usuarioRepository.findById(id).orElse(null);
-        entity.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        entity.setUsername(usuarioDTO.getUsername());
         entity.setPassword(usuarioDTO.getPassword());
-        entity.setSucursal(usuarioDTO.getSucursal());
         UsuarioEntity entitySave = this.usuarioRepository.save(entity);
         UsuarioDTO result = this.usuarioMapper.usuarioEntity2DTO(entitySave);
         return  result;

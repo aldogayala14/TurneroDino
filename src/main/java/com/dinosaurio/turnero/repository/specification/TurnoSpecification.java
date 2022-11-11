@@ -29,7 +29,7 @@ public class TurnoSpecification {
             query.distinct(true);
 
             //Order resolver
-            String orderByField = "fecha_alta";
+            String orderByField = "numero_turno";
             query.orderBy(
                     turnoFilterDTO.isASC() ?
                             criteriaBuilder.asc(root.get(orderByField)) :

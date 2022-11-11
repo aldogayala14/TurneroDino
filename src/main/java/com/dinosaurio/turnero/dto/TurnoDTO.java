@@ -11,6 +11,7 @@ public class TurnoDTO {
     private int numero_turno;
     private ZonedDateTime fechaHora;
     private ZonedDateTime fechaAlta;
+    private boolean estado;
     private Long sucursalId;
     private Long sectorId;
 }
