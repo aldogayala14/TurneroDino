@@ -10,9 +10,7 @@ import com.dinosaurio.turnero.service.TurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TurnoServiceImpl implements TurnoService {
@@ -59,11 +57,19 @@ public class TurnoServiceImpl implements TurnoService {
 
 
     @Override
-    public Set<TurnoDTO> getByFilters(boolean estado, String order) {
-        TurnoFilterDTO movieFilterDTO = new TurnoFilterDTO(estado,order);
-        List<TurnoEntity> entities = turnoRepository.findAll(turnoSpecification.getByFilters(movieFilterDTO));
-        Set<TurnoDTO> movieDTOS = turnoMapper.turnoEntity2DTOList(entities);
-        return movieDTOS;
+    public List<TurnoDTO> getByFilters(int estado, String order) {
+
+        TurnoFilterDTO turnoFilterDTO = new TurnoFilterDTO(estado,order);
+        List<TurnoEntity> entities = turnoRepository.findAll(turnoSpecification.getByFilters(turnoFilterDTO));
+        Set<TurnoDTO> turnoDTOS = turnoMapper.turnoEntity2DTOList(entities);
+        List<TurnoDTO> result = new ArrayList<>(turnoDTOS);
+        if(turnoFilterDTO.isASC()){
+            result.sort(Comparator.comparing(TurnoDTO::getId));
+        }else if(turnoFilterDTO.isDESC()){
+            result.sort(Comparator.comparing(TurnoDTO::getId));
+            Collections.reverse(result);
+        }
+        return result;
     }
 
     @Override

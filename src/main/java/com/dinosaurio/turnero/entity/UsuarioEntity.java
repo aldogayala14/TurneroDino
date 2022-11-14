@@ -7,12 +7,14 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @Entity
@@ -37,9 +39,16 @@ public class UsuarioEntity implements Serializable, UserDetails {
     @Column(name = "Habilitado")
     private boolean Habilitado = true;
 
+    @ManyToOne
+    @JoinColumn(name = "ROLE_ID", insertable = false,updatable = false, referencedColumnName = "ID")
+    private RoleEntity role;
+
+    @Column(name = "ROLE_ID", nullable = false)
+    private Long roleId;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return List.of(new SimpleGrantedAuthority(getRole().getName().toString()));
     }
 
     @Override

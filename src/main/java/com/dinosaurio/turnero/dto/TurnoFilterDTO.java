@@ -9,11 +9,11 @@ import java.time.ZonedDateTime;
 @Setter
 public class TurnoFilterDTO {
 
-    private boolean estado;
+    private int estado;
     private String order;
 
 
-    public TurnoFilterDTO(boolean estado, String order) {
+    public TurnoFilterDTO(int estado, String order) {
         this.estado = estado;
         this.order = order;
     }

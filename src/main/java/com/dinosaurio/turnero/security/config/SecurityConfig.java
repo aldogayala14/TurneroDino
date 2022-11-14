@@ -18,7 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity
+
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
@@ -34,31 +35,6 @@ public class SecurityConfig {
     }
 
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
-       return httpSecurity.csrf().disable()
-                .authorizeHttpRequests( auth -> {
-                            auth.antMatchers(HttpMethod.GET, "/API/auth/**").permitAll();
-                            auth.antMatchers(HttpMethod.GET, "/sucursales/all").hasAnyRole("ADMIN");
-                            auth.anyRequest().authenticated();
-                        })
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-
-                .build();
-    }
-
-
-    @Bean
-    public AuthenticationManager authicationManager(HttpSecurity httpSecurity) throws Exception{
-
-            return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
-                    .userDetailsService(userDetailsCustomService)
-                    .passwordEncoder(this.passwordEncoder())
-                    .and()
-                    .build();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -66,6 +42,37 @@ public class SecurityConfig {
     }
 
 
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsCustomService)
+                .passwordEncoder(passwordEncoder())
+                .and()
+                .build();
+    }
+
+    @Bean
+    protected SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception{
+
+        return httpSecurity
+                .csrf().disable()
+                .cors().disable()
+                .authorizeRequests()
+                .antMatchers("/API/**").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .exceptionHandling()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+
+    }
 
 
 }

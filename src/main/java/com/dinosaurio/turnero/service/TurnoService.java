@@ -2,6 +2,7 @@ package com.dinosaurio.turnero.service;
 
 import com.dinosaurio.turnero.dto.TurnoDTO;
 
+import java.util.List;
 import java.util.Set;
 
 public interface TurnoService {
@@ -13,7 +14,7 @@ public interface TurnoService {
 
     void delete(Long id);
 
-    Set<TurnoDTO> getByFilters(boolean estado, String order);
+    List<TurnoDTO> getByFilters(int estado, String order);
 
     void setEstado();
 }

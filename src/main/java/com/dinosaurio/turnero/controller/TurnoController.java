@@ -7,8 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/API/turno")
@@ -26,11 +25,11 @@ public class TurnoController {
     }
 
     @GetMapping("/filter")
-        public ResponseEntity<Set<TurnoDTO>> getDetailsByFilters(@RequestParam(required = false, defaultValue = "1") boolean estado,
+        public ResponseEntity<List<TurnoDTO>> getDetailsByFilters(@RequestParam(required = false, defaultValue = "1") int estado,
                                                               @RequestParam(required = false , defaultValue = "ASC") String order)
     {
-        Set<TurnoDTO> turnoDTOS = turnoService.getByFilters(estado,order);
-        return ResponseEntity.ok(turnoDTOS);
+        List<TurnoDTO> turnoDTOS = turnoService.getByFilters(estado,order);
+        return ResponseEntity.status(HttpStatus.OK).body(turnoDTOS);
 
     }
 
@@ -58,8 +57,8 @@ public class TurnoController {
 
     @PostMapping("/setEstado")
     public ResponseEntity<String> setEstado(){
+        String message = "Set estado OK";
         this.turnoService.setEstado();
-        return ResponseEntity.status(HttpStatus.OK).body("Set estado OK");
-
+        return ResponseEntity.status(HttpStatus.OK).body(message);
     }
 }
