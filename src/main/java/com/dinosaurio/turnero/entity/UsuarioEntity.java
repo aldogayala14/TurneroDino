@@ -33,8 +33,11 @@ public class UsuarioEntity implements Serializable, UserDetails {
     @Column(name = "password")
     private String password;
     @ManyToOne
-    @JoinColumn(name="sucursal_id", nullable=false)
+    @JoinColumn(name="sucursal_id", insertable = false, updatable = false)
     private SucursalEntity sucursal;
+
+    @Column(name = "sucursal_id",nullable = false)
+    private Long sucursalId;
 
     @Column(name = "Habilitado")
     private boolean Habilitado = true;

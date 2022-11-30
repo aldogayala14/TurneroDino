@@ -4,12 +4,14 @@ import com.dinosaurio.turnero.dto.RoleBasicDTO;
 import com.dinosaurio.turnero.entity.RoleEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.stereotype.Component;
 
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Component
 public class RoleMapper {
 
     private ModelMapper modelMapper = new ModelMapper();

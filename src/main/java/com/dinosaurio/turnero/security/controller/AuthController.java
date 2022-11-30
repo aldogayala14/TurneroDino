@@ -15,6 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("/API/auth")
 public class AuthController {
@@ -45,7 +48,8 @@ public class AuthController {
         UserDetails userDetails;
         try{
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword(), Collections.emptyList())
             );
             userDetails = (UserDetails) auth.getPrincipal();
 

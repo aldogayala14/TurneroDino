@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("/API/turno")
-@CrossOrigin(origins = "http://localhost:9090")
 public class TurnoController {
 
     @Autowired
     private TurnoService turnoService;
-
 
     @GetMapping("/all")
     public ResponseEntity<Set<TurnoDTO>> getAll(){
@@ -32,6 +32,7 @@ public class TurnoController {
         return ResponseEntity.status(HttpStatus.OK).body(turnoDTOS);
 
     }
+
 
     @PostMapping
     public ResponseEntity<TurnoDTO> save(@RequestBody TurnoDTO turnoDTO){

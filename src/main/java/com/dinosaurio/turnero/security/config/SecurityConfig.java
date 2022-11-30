@@ -6,7 +6,6 @@ import com.dinosaurio.turnero.security.service.UserDetailsCustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 
 @EnableWebSecurity(debug = true)
@@ -56,11 +56,12 @@ public class SecurityConfig {
 
         return httpSecurity
                 .csrf().disable()
-                .cors().disable()
                 .authorizeRequests()
                 .antMatchers("/API/**").permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .cors()
                 .and()
                 .httpBasic()
                 .and()
@@ -73,6 +74,9 @@ public class SecurityConfig {
                 .build();
 
     }
+
+
+
 
 
 }
