@@ -19,22 +19,28 @@ public class TurnoSpecification {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if(turnoFilterDTO.isEstado() == true ){
+            if (turnoFilterDTO.getEstado() == 0) {
+
                 predicates.add(
-                        criteriaBuilder.equal(root.get("estado"),1)
+                        criteriaBuilder.equal(root.get("estado"), 0)
                 );
-            }
+              }else if (turnoFilterDTO.getEstado() == 1){
+                predicates.add(
+                        criteriaBuilder.equal(root.get("estado"), 1)
+                );
+               }
+
 
             //Remove duplicates
             query.distinct(true);
 
-            //Order resolver
-            String orderByField = "numero_turno";
+            String orderByField = "fechaAlta";
             query.orderBy(
                     turnoFilterDTO.isASC() ?
                             criteriaBuilder.asc(root.get(orderByField)) :
                             criteriaBuilder.desc(root.get(orderByField))
             );
+
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

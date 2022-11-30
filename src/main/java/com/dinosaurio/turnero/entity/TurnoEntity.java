@@ -14,7 +14,8 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "turno")
 @Getter
-@Setter@SQLDelete(sql = "UPDATE turno SET habilitado = 0 WHERE id=?")
+@Setter
+@SQLDelete(sql = "UPDATE turno SET habilitado = 0 WHERE id=?")
 @Where(clause = "habilitado = 1")
 public class TurnoEntity implements Serializable {
 
